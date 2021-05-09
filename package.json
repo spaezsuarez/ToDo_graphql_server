@@ -1,0 +1,25 @@
+{
+  "name": "to_do-graphql-server",
+  "version": "0.0.0",
+  "description": "Aplicación del lado del servidor con arqutectura graphql para el backend de una aplicación de tareas",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "prestart": "npx tsc",
+    "start": "node dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spaezsuarez/to_do_graphql_server.git"
+  },
+  "author": "Sergio David Paez Suarez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/spaezsuarez/to_do_graphql_server/issues"
+  },
+  "homepage": "https://github.com/spaezsuarez/to_do_graphql_server#readme",
+  "dependencies": {
+    "typescript": "^4.2.4"
+  }
+}
