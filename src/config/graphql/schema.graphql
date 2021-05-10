@@ -1,0 +1,26 @@
+type ItemTask{
+    id:Int!
+    isDone:Boolean!
+    text:String!
+}
+
+type Task{
+    id:ID
+    title:String!
+    description:String
+    isDone:Boolean!
+    startDate: String!
+    endDate: String
+    itemsTasks:[ItemTask]
+}
+
+type User{
+    id:ID
+    name:String
+    tasks:[Task]
+}
+
+type Query{
+    getTasks:Task
+    getUsers:User
+}
