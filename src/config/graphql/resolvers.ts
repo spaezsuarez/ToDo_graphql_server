@@ -6,7 +6,7 @@ let databaseConnection = new MongoConnection();
 export const resolvers:IResolvers = {
     Query:{
         getTasks:() => { return {} },
-        getUsers:() => { return {"name":"Sergio"} }
+        getUsers:() => { return databaseConnection.getUser() }
     },
 
 }
