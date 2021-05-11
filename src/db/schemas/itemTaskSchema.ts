@@ -6,4 +6,4 @@ const itemTask:Schema = new Schema({
     text:{type:String,required:true}
 });
 
-export const itemModel = model('ItemTask',itemTask);
+export const ItemModel = model('ItemTask',itemTask);
