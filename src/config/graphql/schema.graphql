@@ -17,10 +17,21 @@ type Task{
 type User{
     id:ID
     name:String
+    password:String
     tasks:[Task]
 }
 
+input UserInput{
+    id:ID
+    name:String
+    password:String
+}
+
 type Query{
-    getTasks:Task
-    getUsers:User
+    getUser:User
+    getUsers:[User]
+}
+
+type Mutation{
+    createUser(userInput:UserInput):User
 }
