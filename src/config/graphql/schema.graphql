@@ -5,7 +5,7 @@ type ItemTask{
 }
 
 type Task{
-    id:ID
+    _id:ID
     title:String!
     description:String
     isDone:Boolean!
@@ -15,23 +15,38 @@ type Task{
 }
 
 type User{
-    id:ID
+    _id:ID
     name:String
     password:String
     tasks:[Task]
 }
 
 input UserInput{
-    id:ID
     name:String
     password:String
 }
 
+input ItemTaskInput{
+    id:Int!
+    isDone:Boolean!
+    text:String!
+}
+
+input TaskInput{
+    title:String!
+    description:String
+    isDone:Boolean!
+    startDate: String!
+    endDate: String
+    itemsTasks:[ItemTaskInput]
+}
+
 type Query{
-    getUser:User
+    getUser(user:UserInput):User
     getUsers:[User]
 }
 
 type Mutation{
     createUser(userInput:UserInput):User
+    createTask(idUser:String,taskInput:TaskInput):Task
 }
