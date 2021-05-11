@@ -2,7 +2,7 @@ import ItemTask from './ItemTask';
 
 export default class Task{
 
-    private id:string;
+    private _id:string;
     private title:string;
     private description:string;
     private isDone:boolean;
@@ -10,12 +10,17 @@ export default class Task{
     private endDate:Date;
     private itemsTasks:ItemTask[];
 
-    constructor(){
-
+    constructor(title:string, description:string, isDone:boolean, startDate:Date, endDate:Date, itemsTasks:ItemTask[]){
+        this.title = title;
+        this.description = description;
+        this.isDone = isDone;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.itemsTasks = itemsTasks;
     }
 
     public getID():string{
-        return this.id;
+        return this._id;
     }
 
     public getTitle():string{
@@ -40,6 +45,10 @@ export default class Task{
 
     public getItemsTasks():ItemTask[]{
         return this.itemsTasks;
+    }
+
+    public setId(id:string):void{
+        this._id = id;
     }
 
     public setTitle(title:string):void{

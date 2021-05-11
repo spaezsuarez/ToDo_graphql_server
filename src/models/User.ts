@@ -2,13 +2,12 @@ import Task from './Task';
 
 export default class User{
 
-    public id: string | number;
+    public _id: string | number;
     private name:string;
     private password:string;
     private tasks: Task[];
 
-    public constructor(id:string | number, name:string,password:string){
-        this.id = id;
+    public constructor (name:string,password:string){
         this.name = name;
         this.password = password;
         this.tasks = [];
@@ -18,8 +17,12 @@ export default class User{
         this.tasks = tasks;
     }
 
+    public setId(id:string):void{
+        this._id = id;
+    }
+
     public getId():string | number{
-        return this.id;
+        return this._id;
     }
 
     public getName():string{
