@@ -24,6 +24,7 @@ type User{
 input UserInput{
     name:String
     password:String
+    tasks:[TaskInput]
 }
 
 input ItemTaskInput{
@@ -49,4 +50,6 @@ type Query{
 type Mutation{
     createUser(userInput:UserInput):User
     createTask(idUser:String,taskInput:TaskInput):Task
+    createItemTask(idTask:String,itemTaskInput:ItemTaskInput):ItemTask
+    updateUser(idUser:String,userData:UserInput):User
 }
