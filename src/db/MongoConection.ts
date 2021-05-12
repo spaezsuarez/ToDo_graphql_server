@@ -38,8 +38,8 @@ export default class MongoConnection {
         return user;
     }
 
-    public async updateUser(userData:User):Promise<any>{
-        let user:any = await UserModel.findOne({_id:userData.getId()});
+    public async updateUser(idUser:any,userData:User):Promise<any>{
+        let user:any = await UserModel.findOne({_id:idUser});
         for (let clave in user) {
             if (userData.hasOwnProperty(clave)) {
                user[clave] = userData[clave];
@@ -51,11 +51,20 @@ export default class MongoConnection {
 
     public async createTask(idUser:string,task:Task):Promise<Task>{
         const taskData = new TaskModel(task);
-        let dataTask:any = await taskData.save();
+        let result:any = await taskData.save();
         let user:any = await UserModel.findOne({_id:idUser});
-        user.tasks.push(dataTask._id);
+        user.tasks.push(result._id);
         await user.save();
         return task;
+    }
+
+    public async createItemTask(idTask:string,itemTask:ItemTask):Promise<ItemTask>{
+        const itemTaskData = new ItemModel(itemTask);
+        let result:any = await itemTaskData.save();
+        let task:any = await TaskModel.findOne({_id:idTask});
+        task.itemTasks.push(result._id);
+        await task.save();
+        return itemTask;
     }
 
 }
