@@ -9,7 +9,7 @@ import { UserModel } from './schemas/UserSchema';
 
 export default class MongoConnection {
 
-    public async getOneUser(data:any):Promise<User|any>{
+    public async getOneUser(data:any):Promise<User>{
         let userMongo:any = await UserModel.findOne({name:data.name,password:data.password}).populate('tasks').exec();
         let temp:User = new User(userMongo.name,userMongo.password);
         temp.setId(userMongo._id);
@@ -33,19 +33,8 @@ export default class MongoConnection {
 
     public async createUser(user:User):Promise<User>{
         const dataUser = new UserModel(user);
-        let { _id } = await dataUser.save();
-        user.setId(_id);
-        return user;
-    }
-
-    public async updateUser(idUser:any,userData:User):Promise<any>{
-        let user:any = await UserModel.findOne({_id:idUser});
-        for (let clave in user) {
-            if (userData.hasOwnProperty(clave)) {
-               user[clave] = userData[clave];
-            }
-        }
-        user.save();
+        let result = await dataUser.save();
+        user.setId(result._id);
         return user;
     }
 
@@ -66,5 +55,36 @@ export default class MongoConnection {
         await task.save();
         return itemTask;
     }
+
+    public async updateUser(userData:User):Promise<User>{
+        let user:any = await UserModel.findOne({_id:userData.getId()});
+        for(let key in user){
+            if(userData.toObject().hasOwnProperty(key)){
+                user[key] = userData[key];
+            }
+        }
+        await user.save();
+        return userData;
+    }
+
+    public async updateTask(taskData:Task):Promise<any>{
+        let task:any = await TaskModel.findOne({_id:taskData.getId()});
+        for(let key in task){
+            if(taskData.toObject().hasOwnProperty(key)){
+                task[key] = taskData[key];
+            }
+        }
+        await task.save();
+        return taskData;
+    }
+
+    public async updateItemTask(idTask:string,data:ItemTask):Promise<any>{
+        let task:any = await TaskModel.findOne({_id:idTask});
+        let tempItem = task.itemTasks[data.getID()];
+        let itemTask = await ItemModel.findOneAndUpdate({_id:tempItem},{id:data.getID(),isDone:data.getIsDone(),text:data.getText()});
+        return itemTask;
+    }
+
+    
 
 }
