@@ -1,0 +1,59 @@
+scalar Date
+
+type ItemTask{
+    id:Int!
+    isDone:Boolean!
+    text:String!
+}
+
+type Task{
+    _id:ID
+    title:String!
+    description:String
+    isDone:Boolean!
+    startDate: Date!
+    endDate: Date
+    itemsTasks:[ItemTask]
+}
+
+type User{
+    _id:ID
+    name:String
+    password:String
+    tasks:[Task]
+}
+
+input UserInput{
+    name:String
+    password:String
+    tasks:[TaskInput]
+}
+
+input ItemTaskInput{
+    id:Int!
+    isDone:Boolean!
+    text:String!
+}
+
+input TaskInput{
+    title:String
+    description:String
+    isDone:Boolean
+    startDate: Date
+    endDate: Date
+    itemsTasks:[ItemTaskInput]
+}
+
+type Query{
+    getUser(user:UserInput):User
+    getUsers:[User]
+}
+
+type Mutation{
+    createUser(userInput:UserInput):User
+    createTaskData(idUser:String,taskInput:TaskInput):Task
+    createItemTask(idTask:String,itemTaskInput:ItemTaskInput):ItemTask
+    updateUserInfo(idUser:String,userData:UserInput):User
+    updateTaskInfo(idTask:String,taskData:TaskInput):Task
+    updateItemTaskInfo(idTask:String,itemData:ItemTaskInput):ItemTask
+}
