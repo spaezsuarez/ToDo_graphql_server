@@ -1,3 +1,5 @@
+scalar Date
+
 type ItemTask{
     id:Int!
     isDone:Boolean!
@@ -9,8 +11,8 @@ type Task{
     title:String!
     description:String
     isDone:Boolean!
-    startDate: String!
-    endDate: String
+    startDate: Date!
+    endDate: Date
     itemsTasks:[ItemTask]
 }
 
@@ -34,11 +36,11 @@ input ItemTaskInput{
 }
 
 input TaskInput{
-    title:String!
+    title:String
     description:String
-    isDone:Boolean!
-    startDate: String!
-    endDate: String
+    isDone:Boolean
+    startDate: Date
+    endDate: Date
     itemsTasks:[ItemTaskInput]
 }
 
@@ -49,7 +51,9 @@ type Query{
 
 type Mutation{
     createUser(userInput:UserInput):User
-    createTask(idUser:String,taskInput:TaskInput):Task
+    createTaskData(idUser:String,taskInput:TaskInput):Task
     createItemTask(idTask:String,itemTaskInput:ItemTaskInput):ItemTask
-    updateUser(idUser:String,userData:UserInput):User
+    updateUserInfo(idUser:String,userData:UserInput):User
+    updateTaskInfo(idTask:String,taskData:TaskInput):Task
+    updateItemTaskInfo(idTask:String,itemData:ItemTaskInput):ItemTask
 }
