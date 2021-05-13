@@ -37,4 +37,8 @@ export default class User{
         return this.password;
     }
 
+    public toObject():Object{
+        return {_id:this._id,name:this.name,password:this.password,tasks:this.tasks};
+    }
+
 }

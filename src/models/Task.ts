@@ -19,7 +19,7 @@ export default class Task{
         this.itemsTasks = itemsTasks;
     }
 
-    public getID():string{
+    public getId():string{
         return this._id;
     }
 
@@ -73,6 +73,10 @@ export default class Task{
 
     public setItemsTasks(itemsTasks:ItemTask[]):void{
         this.itemsTasks = itemsTasks;
+    }
+
+    public toObject():Object{
+        return {_id:this._id,description:this.description,isDone:this.isDone,itemsTasks:this.itemsTasks,endDate:this.endDate,startDate:this.startDate}
     }
 
 }
