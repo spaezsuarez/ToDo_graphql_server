@@ -2,14 +2,14 @@ import express = require('express');
 import cors = require('cors');
 import { config } from 'dotenv'
 import { resolve } from 'path';
-import { Application } from 'express';
+import { Application,Response } from 'express';
 import { graphqlHTTP } from 'express-graphql';
 import { finalSchema } from '../graphql/schemaConfig';
 import { startDatabaseConnection } from './dataBase';
 
-export const initServer = async () => {
+export const initServer = () => {
 
-    await config({path:resolve('.env')});
+    config({path:resolve('.env')});
     startDatabaseConnection();
 
     const grahqlServer = graphqlHTTP({
@@ -19,9 +19,22 @@ export const initServer = async () => {
 
     const server:Application = express();
 
-    server.use('*',cors());
+    server.use((_, res:Response, next) => {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader(
+            'Access-Control-Allow-Headers',
+            'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization'
+        );
+        res.setHeader(
+            'Access-Control-Allow-Methods',
+            'GET, POST, PUT, DELETE, PATCH, OPTIONS'
+        );
+        next();
+    });
 
-    server.use('/',grahqlServer);
+    server.use(cors());
+    server.use(express.json());
+    server.use('/graphql',grahqlServer);
 
     server.listen(process.env.PORT,() => {
         console.log(`server running in http://localhost:${process.env.PORT}/`);
