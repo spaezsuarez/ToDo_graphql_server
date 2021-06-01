@@ -8,7 +8,7 @@
   "scripts": {
     "compile": "tsc",
     "start": "node --trace-deprecation dist/index.js",
-    "start:dev": "nodemon --watch './**/*.ts' --exec 'ts-node' src/index.ts"
+    "dev": "nodemon --watch './**/*.ts' --exec 'ts-node' src/index.ts"
   },
   "repository": {
     "type": "git",
