@@ -12,7 +12,7 @@ export const resolvers:IResolvers = {
     Date:Date({name: "Date" }),
 
     Query:{
-        getUser: (_:any,{ user }) => { return databaseConnection.getOneUser(user); },
+        getUser: (_:any,{ user }) => { return databaseConnection.getOneUser(user.name,user.password); },
         getUsers: async () => { return await databaseConnection.getUsers(); }
     },
     Mutation:{
