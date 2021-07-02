@@ -1,48 +1,35 @@
 import { IResolvers } from 'graphql-tools';
 import { Date } from 'graphql-tools-types';
-import MongoConnection from '../../db/MongoConection';
-import ItemTask from '../../models/ItemTask';
-import Task from '../../models/Task';
-import User from '../../models/User';
+import { Dao } from '../../db/Dao';
 
-let databaseConnection:MongoConnection = new MongoConnection();
+let databaseConnection:Dao = new Dao();
 
 export const resolvers:IResolvers = {
 
     Date:Date({name: "Date" }),
 
     Query:{
-        getUser: (_:any,{ user }) => { return databaseConnection.getOneUser(user.name,user.password); },
+        authUser: (_:any,{ user }) => { return databaseConnection.auth(user); },
         getUsers: async () => { return await databaseConnection.getUsers(); }
     },
     Mutation:{
         createUser: async (_:any,{ userInput }) => {
-            let user:User = new User(userInput.name,userInput.password);
-            return await databaseConnection.createUser(user);
+            return await databaseConnection.createUser(userInput);
         },
         createTaskData: async (_:any,{ idUser,taskInput }) => {
-            let task:Task = new Task(taskInput.title,taskInput.description,taskInput.isDone,taskInput.startDate,taskInput.endDate,taskInput.itemsTasks);
-            let result =  await databaseConnection.createTask(idUser,task);
-            return result;
+            return await databaseConnection.createTask(idUser,taskInput);
         },
-        createItemTask:async (_:any,{ idTask,itemTaskInput })=>{
-            let item:ItemTask = new ItemTask(itemTaskInput.id,itemTaskInput.isDone,itemTaskInput.text);
-            return await databaseConnection.createItemTask(idTask,item);
+        createItemTask: async (_:any,{ idTask,itemTaskInput })=>{
+            return await databaseConnection.createItemTask(idTask,itemTaskInput);
         },
-        updateUserInfo:async (_:any,{ idUser,userData }) => {
-            let user:User = new User(userData.name,userData.password);
-            user.setTasks(userData.tasks);
-            user.setId(idUser);
-            return databaseConnection.updateUser(user);
+        updateUserInfo: async (_:any,{ idUser,userData }) => {
+            return databaseConnection.updateUser(idUser,userData);
         },
-        updateTaskInfo:async (_:any,{ idTask,taskData }) => {
-            let task:Task = new Task(taskData.title,taskData.description,taskData.isDone,taskData.startDate,taskData.endDate,taskData.itemsTasks);
-            task.setId(idTask);
-            return await databaseConnection.updateTask(task);
+        updateTaskInfo: async (_:any,{ idTask,taskData }) => {
+            return await databaseConnection.updateTask(idTask,taskData);
         },
-        updateItemTaskInfo:async (_:any,{ idTask,itemData }) => {
-            let item:ItemTask = new ItemTask(itemData.id,itemData.isDone,itemData.text);
-            return await databaseConnection.updateItemTask(idTask,item);
+        updateItemTaskInfo: async (_:any,{ idTask,itemData }) => {
+            return await databaseConnection.updateItemTask(idTask,itemData);
         }
     }
 
