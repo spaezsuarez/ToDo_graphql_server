@@ -1,3 +1,4 @@
 import { initServer } from './config/server/initServer';
 
-initServer();
+if (module === require.main)
+    initServer();
