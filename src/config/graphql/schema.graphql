@@ -1,8 +1,8 @@
 scalar Date
 
 type ItemTask{
-    id:Int!
-    isDone:Boolean!
+    _id:Int!
+    isDone:Int!
     text:String!
 }
 
@@ -10,7 +10,7 @@ type Task{
     _id:ID
     title:String!
     description:String
-    isDone:Boolean!
+    isDone:Int!
     startDate: Date!
     endDate: Date
     itemsTasks:[ItemTask]
@@ -20,32 +20,33 @@ type User{
     _id:ID
     name:String
     password:String
+    email:String
     tasks:[Task]
 }
 
 input UserInput{
     name:String
+    email:String
     password:String
-    tasks:[TaskInput]
 }
 
 input ItemTaskInput{
-    id:Int!
-    isDone:Boolean!
+    _id:Int!
+    isDone:Int!
     text:String!
 }
 
 input TaskInput{
     title:String
     description:String
-    isDone:Boolean
-    startDate: Date
-    endDate: Date
+    isDone:Int
+    startDate:Date
+    endDate:Date
     itemsTasks:[ItemTaskInput]
 }
 
 type Query{
-    getUser(user:UserInput):User
+    authUser(user:UserInput):User
     getUsers:[User]
 }
 
