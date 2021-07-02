@@ -1,16 +1,10 @@
 import express = require('express');
 import cors = require('cors');
-import { config } from 'dotenv'
-import { resolve } from 'path';
 import { Application,Response } from 'express';
 import { graphqlHTTP } from 'express-graphql';
 import { finalSchema } from '../graphql/schemaConfig';
-import { startDatabaseConnection } from './dataBase';
 
-export const initServer = () => {
-
-    config({path:resolve('.env')});
-    startDatabaseConnection();
+export const initServer = ():void => {
 
     const grahqlServer = graphqlHTTP({
         schema:finalSchema,
@@ -37,7 +31,7 @@ export const initServer = () => {
     server.use('/graphql',grahqlServer);
 
     server.listen(process.env.PORT,() => {
-        console.log(`server running in http://localhost:${process.env.PORT}/`);
+        console.log(`server running in http://${process.env.HOST}:${process.env.PORT}/graphql`);
     });
 
 }
