@@ -1,25 +1,26 @@
 import ItemTask from './ItemTask';
+import { parseString } from '../functions/proccesData';
 
 export default class Task{
 
     private _id:string;
     private title:string;
     private description:string;
-    private isDone:boolean;
+    private isDone:number;
     private startDate:Date;
     private endDate:Date;
     private itemsTasks:ItemTask[];
 
-    constructor(title:string, description:string, isDone:boolean, startDate:Date, endDate:Date, itemsTasks:ItemTask[]){
+    constructor(title:string, description:string, isDone:number, startDate:Date, endDate:Date, itemsTasks:ItemTask[]){
         this.title = title;
         this.description = description;
         this.isDone = isDone;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.startDate = new Date(startDate);
+        this.endDate = new Date(endDate);
         this.itemsTasks = itemsTasks;
     }
 
-    public getId():string{
+    public getID():string{
         return this._id;
     }
 
@@ -31,23 +32,24 @@ export default class Task{
         return this.description;
     }
 
-    public getIsDone():boolean{
+    public getIsDone():number{
         return this.isDone;
     }
 
-    public getStartDate():Date{
-        return this.startDate;
+    public getStartDate():string{
+       
+        return this.startDate.toLocaleDateString().split('/').reverse().join('-');
     }
 
-    public getEndDate():Date{
-        return this.endDate;
+    public getEndDate():string{
+        return this.endDate.toLocaleDateString().split('/').reverse().join('-');
     }
 
     public getItemsTasks():ItemTask[]{
         return this.itemsTasks;
     }
 
-    public setId(id:string):void{
+    public setID(id:string):void{
         this._id = id;
     }
 
@@ -59,7 +61,7 @@ export default class Task{
         this.description = description;
     }
     
-    public setIsDone(isDone:boolean):void{
+    public setIsDone(isDone:number):void{
         this.isDone = isDone;
     }
 
@@ -75,8 +77,10 @@ export default class Task{
         this.itemsTasks = itemsTasks;
     }
 
-    public toObject():Object{
-        return {_id:this._id,description:this.description,isDone:this.isDone,itemsTasks:this.itemsTasks,endDate:this.endDate,startDate:this.startDate}
+    public toSqlInput():any[]{
+        return [parseString(this._id),parseString(this.title),
+               parseString(this.description),parseString(this.isDone),
+               parseString(this.getStartDate()),parseString(this.getEndDate())];
     }
 
 }

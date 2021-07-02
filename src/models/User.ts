@@ -1,32 +1,48 @@
 import Task from './Task';
+import { parseString } from '../functions/proccesData';
 
 export default class User{
 
-    public _id: string | number;
+    public _id: string;
     private name:string;
+    private email:string;
     private password:string;
     private tasks: Task[];
 
-    public constructor (name:string,password:string){
-        this.name = name;
-        this.password = password;
+    public constructor (){
         this.tasks = [];
+    }
+
+    public setName(name:string):void{
+        this.name = name;
+    }
+
+    public setEmail(email:string):void{
+        this.email = email;
+    }
+
+    public setPassword(password:string):void{
+        this.password = password;
     }
 
     public setTasks(tasks:Task[]):void{
         this.tasks = tasks;
     }
 
-    public setId(id:string):void{
+    public setID(id:string):void{
         this._id = id;
     }
 
-    public getId():string | number{
+    public getID():string{
         return this._id;
     }
 
     public getName():string{
         return this.name;
+    }
+
+    public getEmail():string{
+        return this.email;
     }
 
     public getTasks():Task[]{
@@ -37,8 +53,8 @@ export default class User{
         return this.password;
     }
 
-    public toObject():Object{
-        return {_id:this._id,name:this.name,password:this.password,tasks:this.tasks};
+    public toSqlInput():any[]{
+        return [parseString(this._id),parseString(this.email),parseString(this.name),parseString(this.password)];
     }
 
 }
