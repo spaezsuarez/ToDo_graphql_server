@@ -57,4 +57,7 @@ type Mutation{
     updateUserInfo(idUser:String,userData:UserInput):User
     updateTaskInfo(idTask:String,taskData:TaskInput):Task
     updateItemTaskInfo(idTask:String,itemData:ItemTaskInput):ItemTask
+    deleteUser(idUser:String):Boolean
+    deleteTask(idTask:String):Boolean
+    deleteItemTask(idTask:String,idItem:Int):Boolean
 }

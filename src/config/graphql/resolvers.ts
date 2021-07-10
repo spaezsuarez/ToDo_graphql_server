@@ -30,7 +30,16 @@ export const resolvers:IResolvers = {
         },
         updateItemTaskInfo: async (_:any,{ idTask,itemData }) => {
             return await databaseConnection.updateItemTask(idTask,itemData);
-        }
+        },
+        deleteUser:async (_:any) => {
+            return false;
+        },
+        deleteTask:async (_:any) => {
+            return false;
+        },
+        deleteItemTask:async (_:any) => {
+            return false;
+        },
     }
 
 }
