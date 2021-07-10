@@ -57,4 +57,13 @@ export default class User{
         return [parseString(this._id),parseString(this.email),parseString(this.name),parseString(this.password)];
     }
 
+    public toSqlUpate():any{
+        return {
+            "_idUser":parseString(this._id),
+            "email":parseString(this.email),
+            "name":parseString(this.name),
+            "password":parseString(this.password)
+        }
+    }
+
 }
