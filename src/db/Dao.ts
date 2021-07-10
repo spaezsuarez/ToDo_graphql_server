@@ -1,6 +1,7 @@
 import { MysqlConnection } from './MysqlConnection';
 import { parseString } from '../functions/proccesData';
 import { hash,compare } from 'bcrypt';
+import { updateObjectUser } from '../functions/proccesObject';
 import User from '../models/User';
 import Task from '../models/Task';
 import ItemTask from '../models/ItemTask';
@@ -75,8 +76,14 @@ export class Dao{
         return itemTask;
     }
 
-    public updateUser(idUser:any,userData:any):User{
-        return null;
+    public async updateUser(idUser:any,userData:any):Promise<User | any>{
+        let originalUserData = await this.databaseClient.get(parseString(idUser),'User');
+        let user:User = await updateObjectUser(originalUserData[0],userData);
+        this.databaseClient.update('User',user.toSqlUpate(),parseString(idUser)).then(() => {
+            return user;
+        }).catch(() => {
+            return {};
+        });
     }
 
     public updateTask(idTask:any,taskData:any):Task{
@@ -85,6 +92,14 @@ export class Dao{
 
     public updateItemTask(idTask:any,itemData:any):ItemTask{
         return null;
+    }
+
+    public deleteUser(idUser:string):Promise<Boolean>{
+        return this.databaseClient.delete('User',idUser).then(() => {
+            return true;
+        }).catch(() => {
+            return false;
+        });
     }
 
 }
