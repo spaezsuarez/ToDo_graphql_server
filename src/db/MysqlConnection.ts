@@ -22,7 +22,7 @@ export class MysqlConnection{
     }
 
     public async get(id:string,table:string):Promise<any>{
-        return await this.excuteQuery(`SELECT * FROM ${table} WHERE ${getIdDB(table)} == ${id};`);
+        return await this.excuteQuery(`SELECT * FROM ${table} WHERE ${getIdDB(table)} = ${id};`);
     }
 
     public async getAll(table:string):Promise<any>{
